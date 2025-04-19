@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 interface PlagiarismDetectionFormProps {
   onAnalyze: (text: string, title: string) => void;
@@ -104,6 +105,9 @@ const PlagiarismDetectionForm: React.FC<PlagiarismDetectionFormProps> = ({
         
         <div className="flex items-center justify-between">
           <div className="flex space-x-4">
+            <Link href="/" className="text-slate-500 hover:text-slate-700 font-medium transition-colors">
+              Back to Home
+            </Link>
             <button
               type="button"
               className="text-slate-500 hover:text-slate-700 font-medium transition-colors"

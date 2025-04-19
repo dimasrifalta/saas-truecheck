@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PlagiarismDetectionResult } from '@/types/plagiarism';
+import Link from 'next/link';
 
 interface PlagiarismDetectionResultsProps {
   results: PlagiarismDetectionResult;
@@ -222,12 +223,17 @@ const PlagiarismDetectionResults: React.FC<PlagiarismDetectionResultsProps> = ({
         <p className="text-sm text-slate-500">
           Powered by EdenAI Technology
         </p>
-        <button
-          className="btn-primary"
-          onClick={onReset}
-        >
-          Check New Text
-        </button>
+        <div className="flex space-x-4">
+          <Link href="/" className="btn-secondary">
+            Back to Home
+          </Link>
+          <button
+            className="btn-primary"
+            onClick={onReset}
+          >
+            Check New Text
+          </button>
+        </div>
       </div>
     </div>
   );

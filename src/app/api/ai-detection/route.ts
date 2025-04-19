@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       method: 'POST',
       url: 'https://api.edenai.run/v2/text/ai_detection',
       headers: {
-        authorization: `Bearer ${process.env.EDEN_AI_API_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiODViOThlZTctYzkwNi00ODZlLTlkYWItMzIyYjZiNjA3MmQxIiwidHlwZSI6ImFwaV90b2tlbiJ9.ze5As1wqLPd_sHv5cHQ-CSG3osfTQ9r5tlzkAVLKW0M'}`,
+        authorization: `Bearer ${process.env.EDEN_AI_API_KEY}`,
         'Content-Type': 'application/json',
       },
       data: {

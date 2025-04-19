@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 interface ResultItem {
   text: string;
@@ -29,17 +30,22 @@ const AIDetectionResults: React.FC<AIDetectionResultsProps> = ({ results, onRese
   
   if (!provider) {
     return (
-      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6">
+      <div className="p-6">
         <div className="text-center">
-          <p className="text-red-600 dark:text-red-400">
+          <p className="text-red-600 mb-4">
             No valid results returned from the AI detection service.
           </p>
-          <button
-            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium"
-            onClick={onReset}
-          >
-            Try Again
-          </button>
+          <div className="space-x-4">
+            <Link href="/" className="btn-secondary">
+              Back to Home
+            </Link>
+            <button
+              className="btn-primary"
+              onClick={onReset}
+            >
+              Try Again
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -50,9 +56,9 @@ const AIDetectionResults: React.FC<AIDetectionResultsProps> = ({ results, onRese
   const isPossiblyAI = roundedScore >= 40 && roundedScore < 70;
 
   const getResultColor = () => {
-    if (isLikelyAI) return 'text-red-600 dark:text-red-400';
-    if (isPossiblyAI) return 'text-yellow-600 dark:text-yellow-400';
-    return 'text-green-600 dark:text-green-400';
+    if (isLikelyAI) return 'text-red-600';
+    if (isPossiblyAI) return 'text-amber-600';
+    return 'text-emerald-600';
   };
 
   const getResultText = () => {
@@ -72,18 +78,18 @@ const AIDetectionResults: React.FC<AIDetectionResultsProps> = ({ results, onRese
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg overflow-hidden">
-      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+    <div>
+      <div className="p-6 border-b border-slate-100">
+        <h2 className="text-xl font-semibold text-slate-900 mb-2">
           Analysis Results
         </h2>
         
         <div className="flex flex-col items-center my-8">
-          <div className="relative w-48 h-48 mb-6">
+          <div className="relative w-40 h-40 mb-6">
             <svg className="w-full h-full" viewBox="0 0 100 100">
               <circle 
-                className="text-gray-200 dark:text-gray-700" 
-                strokeWidth="10" 
+                className="text-slate-100" 
+                strokeWidth="8" 
                 stroke="currentColor" 
                 fill="transparent" 
                 r="40" 
@@ -91,8 +97,8 @@ const AIDetectionResults: React.FC<AIDetectionResultsProps> = ({ results, onRese
                 cy="50"
               />
               <circle 
-                className={`${isLikelyAI ? 'text-red-500' : isPossiblyAI ? 'text-yellow-500' : 'text-green-500'}`}
-                strokeWidth="10" 
+                className={`${isLikelyAI ? 'text-red-500' : isPossiblyAI ? 'text-amber-500' : 'text-emerald-500'}`}
+                strokeWidth="8" 
                 strokeDasharray={`${roundedScore * 2.51} 251`} 
                 strokeLinecap="round" 
                 stroke="currentColor" 
@@ -103,7 +109,7 @@ const AIDetectionResults: React.FC<AIDetectionResultsProps> = ({ results, onRese
                 transform="rotate(-90 50 50)"
               />
               <text 
-                className="text-3xl font-bold text-gray-900 dark:text-white" 
+                className="text-3xl font-bold text-slate-900" 
                 x="50" 
                 y="50" 
                 dominantBaseline="middle" 
@@ -115,10 +121,10 @@ const AIDetectionResults: React.FC<AIDetectionResultsProps> = ({ results, onRese
           </div>
           
           <div className="text-center">
-            <h3 className={`text-2xl font-bold ${getResultColor()} mb-2`}>
+            <h3 className={`text-xl font-semibold ${getResultColor()} mb-2`}>
               {getResultText()}
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 max-w-lg">
+            <p className="text-slate-500 max-w-lg">
               {getResultDescription()}
             </p>
           </div>
@@ -126,43 +132,43 @@ const AIDetectionResults: React.FC<AIDetectionResultsProps> = ({ results, onRese
       </div>
       
       {provider.items && provider.items.length > 0 && (
-        <div className="p-6">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+        <div className="p-6 border-b border-slate-100">
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">
             Detailed Analysis
           </h3>
           
           <div className="space-y-4">
             {provider.items.map((item, index) => {
               const itemScore = Math.round(item.ai_score * 100);
-              let bgColor = 'bg-gray-50 dark:bg-gray-800';
-              let borderColor = 'border-gray-200 dark:border-gray-700';
+              let bgColor = 'bg-slate-50';
+              let borderColor = 'border-slate-200';
               
               if (item.prediction === 'ai-generated' && item.ai_score > 0.7) {
-                bgColor = 'bg-red-50 dark:bg-red-900/20';
-                borderColor = 'border-red-200 dark:border-red-900/30';
+                bgColor = 'bg-red-50';
+                borderColor = 'border-red-100';
               } else if (item.prediction === 'original' && item.ai_score < 0.3) {
-                bgColor = 'bg-green-50 dark:bg-green-900/20';
-                borderColor = 'border-green-200 dark:border-green-900/30';
+                bgColor = 'bg-emerald-50';
+                borderColor = 'border-emerald-100';
               }
               
               return (
                 <div 
                   key={index} 
-                  className={`p-4 rounded-md border ${bgColor} ${borderColor}`}
+                  className={`p-4 rounded-lg border ${bgColor} ${borderColor}`}
                 >
                   <div className="flex justify-between items-center mb-2">
                     <span className={`px-2 py-1 rounded text-xs font-medium ${
                       item.prediction === 'ai-generated' 
-                        ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' 
-                        : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+                        ? 'bg-red-100 text-red-800' 
+                        : 'bg-emerald-100 text-emerald-800'
                     }`}>
                       {item.prediction === 'ai-generated' ? 'AI-Generated' : 'Human-Written'}
                     </span>
-                    <span className="text-gray-500 dark:text-gray-400 text-sm">
+                    <span className="text-slate-500 text-sm">
                       {itemScore}% AI Score
                     </span>
                   </div>
-                  <p className="text-gray-800 dark:text-gray-200">
+                  <p className="text-slate-700">
                     {item.text}
                   </p>
                 </div>
@@ -172,16 +178,21 @@ const AIDetectionResults: React.FC<AIDetectionResultsProps> = ({ results, onRese
         </div>
       )}
       
-      <div className="p-6 bg-gray-50 dark:bg-gray-800 flex justify-between items-center">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+      <div className="p-6 bg-slate-50 flex justify-between items-center">
+        <p className="text-sm text-slate-500">
           Powered by EdenAI Technology
         </p>
-        <button
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium"
-          onClick={onReset}
-        >
-          Analyze New Text
-        </button>
+        <div className="flex space-x-4">
+          <Link href="/" className="btn-secondary">
+            Back to Home
+          </Link>
+          <button
+            className="btn-primary"
+            onClick={onReset}
+          >
+            Analyze New Text
+          </button>
+        </div>
       </div>
     </div>
   );
